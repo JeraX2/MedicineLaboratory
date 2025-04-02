@@ -12,6 +12,7 @@ public class CpuMonitor {
     private static final Logger logger = LoggerFactory.getLogger(CpuMonitor.class);
     private static final String PROC_STAT = "/proc/stat";
     private static long[] prevCpuTimes = new long[7];
+
     private static long sum(long[] arr) {
         long sum = 0;
         for (long num : arr) {

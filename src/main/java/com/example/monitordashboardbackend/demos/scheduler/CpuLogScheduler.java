@@ -8,14 +8,14 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 @Component
 public class CpuLogScheduler {
-    private static final Logger logger = LoggerFactory.getLogger(CpuLogScheduler.class);
+    private static final Logger logger = LoggerFactory.getLogger("CPU_LOGGER");
 
     @Scheduled(fixedRate = 5000)
     public void logCpuUsage() {
-        System.out.println("定时任务已触发");
+        System.out.println("定时CPU监控任务已触发");
         double cpuUsage = CpuMonitor.getCpuUsage();
         if (cpuUsage >= 0) {
-            String formatted = String.format("%.2f%%", cpuUsage);
+            String formatted = String.format("%.2f", cpuUsage);
             logger.info("当前 CPU 使用率: {}%", formatted);
         }
     }
