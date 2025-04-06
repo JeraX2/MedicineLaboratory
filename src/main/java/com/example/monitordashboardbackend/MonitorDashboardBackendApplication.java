@@ -15,16 +15,19 @@ import java.nio.file.attribute.PosixFilePermission;
 @MapperScan(value = "com.example.monitordashboardbackend.demos.mapper")
 @EnableScheduling
 public class MonitorDashboardBackendApplication {
-
     public static void main(String[] args) {
+        String os = System.getProperty("os.name").toLowerCase();
         String logDir = System.getProperty("user.home") + "/.monitor_logs";
-        try {
-            Files.createDirectories(Paths.get(logDir));
-            Files.setPosixFilePermissions(Paths.get(logDir), Set.of(PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE, PosixFilePermission.OWNER_EXECUTE));
-        } catch (IOException e) {
-            System.err.println("Could not create log directory: " + logDir);
+        if (os.contains("win")) {
+            System.out.println("Windows系统不支持POSIX文件权限设置，跳过相关操作。");
+        } else {
+            try {
+                Files.createDirectories(Paths.get(logDir));
+                Files.setPosixFilePermissions(Paths.get(logDir), Set.of(PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE, PosixFilePermission.OWNER_EXECUTE));
+            } catch (IOException e) {
+                System.err.println("Could not create log directory: " + logDir);;
+            }
         }
         SpringApplication.run(MonitorDashboardBackendApplication.class, args);
     }
-
 }
